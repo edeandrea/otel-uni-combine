@@ -1,0 +1,24 @@
+{
+	"mappings": [
+		{
+			"request": {
+				"method": "GET",
+				"url": "/apple"
+			},
+			"response": {
+				"status": 200,
+				"body": "Apple"
+			}
+		},
+		{
+			"request": {
+				"method": "GET",
+				"url": "/pear"
+			},
+			"response": {
+				"status": 200,
+				"body": "Pear"
+			}
+		}
+	]
+}

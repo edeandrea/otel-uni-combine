@@ -1,0 +1,33 @@
+version: "3"
+services:
+  wiremock:
+    image: wiremock/wiremock:2.33.2
+    container_name: wiremock
+    ports:
+      - "8081:8081"
+    command:
+      - "--port"
+      - "8081"
+    volumes:
+      - ./wiremock-mappings.json:/home/wiremock/mappings/wiremock-mappings.json
+
+  jaeger:
+    image: jaegertracing/all-in-one:1
+    container_name: jaeger
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "14268"       # Accept thrift spans
+      - "14250"       # Accept gRPC spans
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.53.0
+    container_name: otel-collector
+    command:
+      - "--config=/conf/otel-collector-config.yml"
+    volumes:
+      - ./otel-collector-config.yml:/conf/otel-collector-config.yml
+    ports:
+      - "13133:13133" # health_check extension
+      - "4317:4317"   # OTLP gRPC receiver
+    depends_on:
+      - jaeger
